@@ -29,13 +29,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Script
-          src="/pinpoint.min.js"
-          strategy="afterInteractive"
-          onLoad={() => {
-            // @ts-expect-error Pinpoint is loaded by the script above
+        <Script src="/pinpoint.min.js" strategy="afterInteractive" />
+        <Script id="pinpoint-init" strategy="afterInteractive">{`
+          (function waitForPinpoint() {
             if (window.Pinpoint) {
-              // @ts-expect-error Pinpoint is loaded by the script above
               window.Pinpoint.init({
                 projectId: "portfoliosis",
                 endpoint: "/api/pinpoint",
@@ -54,9 +51,11 @@ export default function RootLayout({
                   darkMode: "auto",
                 }
               });
+            } else {
+              setTimeout(waitForPinpoint, 100);
             }
-          }}
-        />
+          })();
+        `}</Script>
       </body>
     </html>
   );
