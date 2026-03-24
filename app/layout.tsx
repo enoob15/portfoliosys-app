@@ -29,29 +29,34 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-        <Script src="/pinpoint.min.js" strategy="lazyOnload" />
-        <Script id="pinpoint-init" strategy="lazyOnload">{`
-          if (window.Pinpoint) {
-            window.Pinpoint.init({
-              projectId: "portfoliosis",
-              endpoint: "/api/pinpoint",
-              features: {
-                feedback: true,
-                console: true,
-                network: true,
-                errors: true,
-                abandonment: true,
-                rageClicks: true,
-                deadClicks: true,
-              },
-              ui: {
-                position: "bottom-right",
-                color: "#6366f1",
-                darkMode: "auto",
-              }
-            });
-          }
-        `}</Script>
+        <Script
+          src="/pinpoint.min.js"
+          strategy="afterInteractive"
+          onLoad={() => {
+            // @ts-expect-error Pinpoint is loaded by the script above
+            if (window.Pinpoint) {
+              // @ts-expect-error Pinpoint is loaded by the script above
+              window.Pinpoint.init({
+                projectId: "portfoliosis",
+                endpoint: "/api/pinpoint",
+                features: {
+                  feedback: true,
+                  console: true,
+                  network: true,
+                  errors: true,
+                  abandonment: true,
+                  rageClicks: true,
+                  deadClicks: true,
+                },
+                ui: {
+                  position: "bottom-right",
+                  color: "#6366f1",
+                  darkMode: "auto",
+                }
+              });
+            }
+          }}
+        />
       </body>
     </html>
   );
