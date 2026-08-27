@@ -28,6 +28,12 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <script
+          src="https://pinpoint.boone51.com/widget/pinpoint.min.js"
+          defer
+          data-project="portfoliosis-b51"
+          data-endpoint="https://pinpoint.boone51.com/api/ingest"
+        ></script>
       </body>
     </html>
   );
